@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 22 12:12:59 2020
+Created on Sun Apr 26 18:05:43 2020
 
 @author: admin
 """
@@ -9,69 +9,62 @@ import numpy as np
 import matplotlib.pyplot as mp
 import pandas as pd
 from pandas import datetime
+from sklearn.preprocessing import Imputer
+from matplotlib import pyplot
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+from sklearn.model_selection import train_test_split as tts
 #%%
-from pandas import DataFrame
-df = DataFrame.from_csv("Data4.tsv", sep="\t")
-#%%
-#Creating a dataset variable and importing the dataset.csv file with it
-dataset = pd.read_csv('Data5.tsv', delimiter="\t", header=0, encoding='utf-8')
-#%%
+
+#def input_data():
 def parser(x):
     return datetime.strptime(x,'%Y-%m-%d %H:%M')
-dataset = pd.read_csv('Data7.csv',header=0, delimiter=',',index_col=0, parse_dates=[0], date_parser=parser)
-#%%
-dataset.plot()
-dataset.show()
-#%%
-'''
-Extra knowledge
-pd.set_option('display.max_columns', 5) - To set displayed no. of columns
+dataset = pd.read_csv('./Dataset/Data7.csv',header=0, delimiter=',',index_col=0, parse_dates=[0], date_parser=parser)
+dataset = dataset.fillna(method ='pad') 
+turb = dataset.filter(['Turb(FNU)'], axis=1)
 
-data = pd.read_csv('file1.csv', error_bad_lines=False) - To ignore error ridden lines
-'''
-#%%
-#Creating separate matrices for x - indep, y- dep 
-x = dataset.iloc[ : , 0].values
-y = dataset.iloc[ : , 1:].values
-#x is a matrix while y is a vector
-#for defining x - specify a range so the resultant x is a matrix(10,1)
-#for defining y - just specify the index of the reqd column directly to make it 
-# a vector(10,)
+#dataset.fillna(method ='bfill') 
 
-#%%
-#ELIMINATING THE MISSING VALUES
-
-from sklearn.preprocessing import Imputer
-#creating function variable using Imputer
-imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
-#attaching the variable imputer to our matrix y
-imputer = imputer.fit(y[:,:])
-#now we apply our imputer variable on matrix to fill in the
-#missing values will be filled with the strategy we picked
-#fit() used to apply changes on a temp var in memory
-#transform() used to commit the changes to the said variable
-#fit_transform() for doing both together
-y=imputer.transform(y)
+train_size,test_size = 1920, 3251#in paper given as 3169
+turb_train,turb_test = tts(turb,train_size = train_size, random_state=0, shuffle=False)
+X = turb_train.values
+# walk-forward validation
+history = [x for x in turb_train]
+predictions = list()
+for i in range(len(turb_test)):
+	# make prediction
+	predictions.append(history[-1])
+	# observation
+	history.append(turb_test[i])
+# report performance
+rmse = sqrt(mean_squared_error(test, predictions))
+print('RMSE: %.3f' % rmse)
+# line plot of observed vs predicted
+pyplot.plot(test)
+pyplot.plot(predictions)
+pyplot.show()
 
 #%%
-
-
-#%%
-#Splitting dataset to training and test set
-'''
-Training Set- from which the model will learn from
-Test -with which it will compare itself and check itself
-
-'''
-
-from sklearn.model_selection import train_test_split as tts
-y_train,y_test = tts(y,test_size = 0.2, random_state=0)
-
-#%%
-#Feature Scaling- it scales the entries so that all columns are comparable to 
-#same scale
-from sklearn.preprocessing import StandardScaler as ss
-sc_x = ss()
-x_train = sc_x.fit_transform(x_train)
-x_test = sc_x.transform(x_test)
-
+# load dataset
+def parser(x):
+	return datetime.strptime('190'+x, '%Y-%m')
+series = read_csv('shampoo-sales.csv', header=0, parse_dates=[0], index_col=0, squeeze=True, date_parser=parser)
+# split data into train and test
+X = series.values
+train, test = X[0:-12], X[-12:]
+# walk-forward validation
+history = [x for x in train]
+predictions = list()
+for i in range(len(test)):
+	# make prediction
+	predictions.append(history[-1])
+	# observation
+	history.append(test[i])
+# report performance
+rmse = sqrt(mean_squared_error(test, predictions))
+print('RMSE: %.3f' % rmse)
+# line plot of observed vs predicted
+pyplot.plot(test)
+pyplot.plot(predictions)
+pyplot.show()

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 17 12:09:53 2020
+Created on Mon Jan 17 12:09:53 2020
 
 @author: admin
 """
 
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 17 10:53:52 2020
+Created on Mon Jan 17 10:53:52 2020
 
 @author: admin
 """
@@ -33,7 +33,7 @@ from sklearn.ensemble import IsolationForest
 #def input_data():
 def parser(x):
     return datetime.strptime(x,'%Y-%m-%d %H:%M')
-dataset = pd.read_csv('Data7.csv',header=0, delimiter=',',index_col=0, parse_dates=[0], date_parser=parser)
+dataset = pd.read_csv('./Dataset/Data7.csv',header=0, delimiter=',',index_col=0, parse_dates=[0], date_parser=parser)
 dataset = dataset.fillna(method ='pad') 
 turb = dataset.filter(['Turb(FNU)'], axis=1)
 train_size,test_size = 1920, 3251#in paper given as 3169
@@ -97,17 +97,21 @@ def acf_pacf_plots(dataset):
 #%%
 def arima_model(ts, order):
     # fit model
+    ts = turb_train
+    order=(1,0,1)
     model = ARIMA(ts, order=order) # (ARMA) = (p,d,q)
     model_fit = model.fit(disp=0)
-    
+    #print summary of fit model
+    print(model_fit.summary())
     # predict
-    forecast = model_fit.predict(start=1000, end=2396)
+    #forecast = model_fit.forecast()[0]
+    forecast2 = model_fit.predict(start=1000, end=2396)
     
     # visualization
     plt.figure(figsize=(12,8))
     plt.plot(turb_test,label = "original")
-    plt.figure(figsize=(12,8))
-    plt.plot(forecast,label = "predicted")
+    #plt.figure(figsize=(12,8))
+    plt.plot(forecast2,label = "predicted")
     plt.title("Turbidity Time Series Forecast")
     plt.xlabel("Date")
     plt.ylabel("Dissolve Oxygen(FNU)")
@@ -179,6 +183,41 @@ plt.title('Turbidity Forecast')
 plt.legend()
 plt.show()
 #%%
+# SARIMA example
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from random import random
+
+# fit model
+model = SARIMAX(turb_test, order=(1, 1, 1), seasonal_order=(1, 1, 1, 1))
+model_fit = model.fit(disp=False)
+# make prediction
+print(model_fit.summary().tables[1])
+#Prediction plot
+model_fit.plot_diagnostics(figsize=(18, 8))
+plt.show()
+yhat = model_fit.predict(len(turb_test), len(turb_test))
+print(yhat)
+
+
+pred = model_fit.get_prediction(start=1500, dynamic=False)
+pred_ci = pred.conf_int()
+plt.figure(figsize=(20,10))
+ax = turb_test.plot(label='observed')
+pred.predicted_mean.plot(ax=ax, label='One-step ahead Forecast', alpha=.7, figsize=(14, 4))
+ax.fill_between(pred_ci.index,
+                pred_ci.iloc[:, 0],
+                pred_ci.iloc[:, 1], color='k', alpha=.2)
+ax.set_xlabel('Date')
+ax.set_ylabel('Retail_sold')
+plt.legend()
+plt.show()
+
+y_forecasted = pred.predicted_mean
+y_truth = y['2018-06-01':]
+mse = ((y_forecasted - y_truth) ** 2).mean()
+print('The Mean Squared Error is {}'.format(round(mse, 2)))
+print('The Root Mean Squared Error is {}'.format(round(np.sqrt(mse), 2)))
+#%%
 #Isolation Forest Model Prediction
 model= IsolationForest(n_estimators=100, max_samples=256)
 #model = IsolationForest(behaviour = 'new')
@@ -186,6 +225,8 @@ model.fit(turb_train)
 turb_pred = model.predict(turb_test)
 print("Valid cases accuracy:", list(turb_pred).count(1)/turb_pred.shape[0])
 Fraud_pred = model.predict(turb_test)
+
+
 #%%
 plt.figure(figsize=(12,8))
 plt.hist(test, normed=True)
@@ -210,7 +251,7 @@ plt.figure(figsize=(12,8))
 plt.plot(xx, anomaly_score, label='anomaly score')
 
 plt.fill_between(xx.T[0], np.min(anomaly_score), np.max(anomaly_score), 
-
+v
                  where=outlier==-1, color='r', 
 
                  label='outlier region')
