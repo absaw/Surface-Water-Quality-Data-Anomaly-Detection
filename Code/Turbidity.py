@@ -16,7 +16,6 @@ import numpy as np
 import matplotlib.pyplot as mp
 import pandas as pd
 from pandas import datetime
-from sklearn.preprocessing import Imputer
 from pandas.plotting import autocorrelation_plot
 from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
@@ -230,12 +229,10 @@ Fraud_pred = model.predict(turb_test)
 #%%
 plt.figure(figsize=(12,8))
 plt.hist(test, normed=True)
-
 plt.xlim([-1, 10])
-
 plt.show()
 #%%
-
+train, test = turb_train.values, turb_test.values
 isolation_forest = IsolationForest(n_estimators=100)
 
 isolation_forest.fit(train.reshape(-1, 1))
@@ -250,11 +247,7 @@ plt.figure(figsize=(12,8))
 
 plt.plot(xx, anomaly_score, label='anomaly score')
 
-plt.fill_between(xx.T[0], np.min(anomaly_score), np.max(anomaly_score), 
-v
-                 where=outlier==-1, color='r', 
-
-                 label='outlier region')
+plt.fill_between(xx.T[0], np.min(anomaly_score), np.max(anomaly_score), where=outlier==-1, color='r', label='outlier region')
 
 plt.legend()
 
