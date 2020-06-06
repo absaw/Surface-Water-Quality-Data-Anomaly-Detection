@@ -11,6 +11,9 @@ This process is done using Time Series forecasting techniques ARIMA and Seasonal
   
   <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Formulae/Flowchart%20Major.png">
   
+  
+  
+  
   <h3>Stationarity of Dataset</h3>
   <ol>
     <li>
@@ -21,25 +24,54 @@ This process is done using Time Series forecasting techniques ARIMA and Seasonal
     </li>
   </ol>
   
+  
+  
+  
+  
   <h3>Time Series Forecasting with : ARIMA</h3>
   <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/arima%20flow.png">
-  <h2> Result : </h2>
+  
+  <h4> Result : ARIMA </h4>
    <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/ARIMA%20Original%20vs%20Predicted.png">
+  
+  <h4> Result : Seasonal ARIMA with window = 192(Daily number of observations)</h4>
+   <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/Differenced%20ARIMA%20Original%20vs%20Predicted%202.png">
 
+<h4>Time Series Forecast Result Analysis</h4>
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/Time%20Series%20Error%20Analysis.JPG">
   <hr>
-  <h3>Isolation Forest</h3>
-  <h2> iTree Generation and Anomaly Score Calculation<h2>
-  <img src=https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/Isolation%20Tree%20working.jpeg">
-   <h3>Isolation Forest</h3>
-  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/iForest.jpeg">                                                                                                                                            
+  
+  
+  <h3>Isolation Forest Anomaly Detection</h3>
+  <h4> iTree Generation and Anomaly Score Calculation<h4>
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/Isolation%20Tree%20working.jpeg">
+  
+   <h4>Isolation Forest</h4>
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/iForest.jpeg">             
+  <h4> Result : iForest Anomaly Detection </h4>                                                          
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/iForest%20Anomaly%20Detection%20New.png">                                   
   <hr>
    
+   
+   
    <h3>OneClassSVM</h3>
-  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/OCSVM%202.jpeg">
+    <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/OCSVM%202.jpeg">
+    <h4> Result : OneClassSVM </h4>         
+    <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/OCSVM%20Anomaly%20Detection.png">   
     <hr>
-
-  
-    <img src="">
+    
+    
+    
+  <h3>Gaussian Distribution</h3>
+    <h4> Result </h4>         
+    <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/Gaussian%20Anomaly%20Detection.png">   
+    <hr>
+    
+    
+    
+  <h3>Anomaly Detection Result Analysis</h3>
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/Anomalies%20Detected%20Analysis%20New.JPG">
+   The above graph shows that isolation forest may be detecting a lot more false positives than the other approaches or it might be over measuring the result. All other methods give similar result with anomaly percentage ranging from 9 to 20 %. The Anomaly graph predictions shown earlier indicate that most anomalies occur on 29 January, 2017 and also on 22 March, 2017. These anomalies can be acknowledged by the fact that these dates had actually shown intensity rainfalls on the monitoring site.
 
   
  </p>
