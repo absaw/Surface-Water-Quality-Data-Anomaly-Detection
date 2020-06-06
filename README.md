@@ -7,17 +7,39 @@ This process is done using Time Series forecasting techniques ARIMA and Seasonal
 
 <p>
   
-  <h1> Flowcharts</h1>
-  <h3>ARIMA</h3>
+  <h1> Working of Project:</h1>
+  
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Formulae/Flowchart%20Major.png">
+  
+  <h3>Stationarity of Dataset</h3>
+  <ol>
+    <li>
+      <h4>1. Augmented Dickey Fuller Test</h4>
+      <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/ADF%20Test%20Turb.JPG">
+      <h4>2. Rolling Mean Plot</h4>
+      <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/Rolling%20Mean%20and%20STD%20Plot%20Turb.png">
+    </li>
+  </ol>
+  
+  <h3>Time Series Forecasting with : ARIMA</h3>
   <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/arima%20flow.png">
+  <h2> Result : </h2>
+   <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Results/1/ARIMA%20Original%20vs%20Predicted.png">
+
   <hr>
   <h3>Isolation Forest</h3>
-  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/Isolation%20Tree%20Algo.jpeg">
+  <h2> iTree Generation and Anomaly Score Calculation<h2>
+  <img src=https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/Isolation%20Tree%20working.jpeg">
+   <h3>Isolation Forest</h3>
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/iForest.jpeg">                                                                                                                                            
   <hr>
    
    <h3>OneClassSVM</h3>
-  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/one%20class%20svm.JPG">
-   <h3>Isolation Forest</h3>
-  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/Isolation%20Tree%20Algo.jpeg">
+  <img src="https://github.com/absaw/Surface-Water-Quality-Data-Anomaly-Detection/blob/master/Images/Flowchart/OCSVM%202.jpeg">
+    <hr>
+
+  
+    <img src="">
+
   
  </p>
